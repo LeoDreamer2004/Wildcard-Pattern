@@ -26,7 +26,7 @@ base {
 }
 
 java {
-    toolchain.languageVersion = JavaLanguageVersion.of(21)
+    toolchain.languageVersion = JavaLanguageVersion.of(17)
 }
 
 minecraft {
@@ -80,6 +80,9 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 repositories {
     mavenCentral()
     mavenLocal()
+    flatDir {
+        dirs 'lib'
+    }
     maven {
         name = "ParchmentMC"
         url = "https://maven.parchmentmc.org"
@@ -131,13 +134,14 @@ dependencies {
     implementation fg.deobf("com.gregtechceu.gtceu:gtceu-${minecraft_version}:${gtm_version}")
     implementation fg.deobf("curse.maven:glodium-957920:5226922")
     implementation fg.deobf("curse.maven:ldlib-626676:7412415")
-    implementation fg.deobf("org.appliedenergistics:guideme:${guideme_version}")
-    implementation fg.deobf("appeng:appliedenergistics2-forge:${ae2_version}")
+//    implementation fg.deobf("org.appliedenergistics:guideme:${guideme_version}")
+//    implementation fg.deobf("appeng:appliedenergistics2-forge:${ae2_version}")
     compileOnly fg.deobf("com.tterrag.registrate:Registrate:${registrate_version}")
     implementation fg.deobf("dev.emi:emi-forge:${emi_version}")
     runtimeOnly fg.deobf("curse.maven:just-enough-characters-250702:6680042")
     compileOnly 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    implementation name: 'appliedenergistics2-forge-15.4.10-cosmolite.32'
 }
 
 // Jar in jar requested by Registrate mod

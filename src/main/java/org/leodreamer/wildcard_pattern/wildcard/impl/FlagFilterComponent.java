@@ -98,8 +98,8 @@ public class FlagFilterComponent implements IWildcardFilterComponent {
             this.example = material;
             var flags = getMaterialFlagNames(material);
             flagSelector.setCandidates(flags);
-            flagSelector.setValue(flags.getFirst());
-            updateFlag(flags.getFirst());
+            flagSelector.setValue(flags.get(0));
+            updateFlag(flags.get(0));
         }
         return ok;
     }

@@ -34,7 +34,7 @@ public class WildcardGTAddon implements IGTAddon {
     @Override
     public void addRecipes(Consumer<FinishedRecipe> provider) {
         ASSEMBLER_RECIPES.recipeBuilder("wildcard_pattern")
-            .inputItems(AEItems.BLANK_PATTERN.asItem(), 16)
+            .inputItems(AEItems.BLANK_PATTERN.m_5456_(), 16)
             .inputItems(ChemicalHelper.get(plate, Polyethylene, 4))
             .outputItems(WildcardItems.WILDCARD_PATTERN)
             .duration(200)

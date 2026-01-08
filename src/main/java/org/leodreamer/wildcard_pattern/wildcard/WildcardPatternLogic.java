@@ -90,7 +90,7 @@ public class WildcardPatternLogic {
                 if (input == null || output == null || input.length == 0 || output.length == 0)
                     return null;
                 // FIXME: a little silly here
-                var item = PatternDetailsHelper.encodeProcessingPattern(input, output);
+                var item = PatternDetailsHelper.encodeProcessingPattern(input, output, "Someone - Oh Wildcard!");
                 return PatternDetailsHelper.decodePattern(item, level);
             })
             .filter(Objects::nonNull);

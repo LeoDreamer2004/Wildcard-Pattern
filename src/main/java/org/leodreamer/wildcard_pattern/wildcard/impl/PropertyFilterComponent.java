@@ -99,8 +99,8 @@ public class PropertyFilterComponent implements IWildcardFilterComponent {
             this.example = material;
             var flags = getMaterialPropertyNames(material);
             propertySelector.setCandidates(flags);
-            propertySelector.setValue(flags.getFirst());
-            updateProperty(flags.getFirst());
+            propertySelector.setValue(flags.get(0));
+            updateProperty(flags.get(0));
         }
         return ok;
     }

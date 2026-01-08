@@ -46,7 +46,7 @@ public class WildcardIndexPage extends WidgetGroup {
         addWidget(new LabelWidget((width - fontWidth) / 2, 5, component.getString()));
 
         initPatternDisplay();
-        displayPattern(patterns.isEmpty() ? null : patterns.getFirst());
+        displayPattern(patterns.isEmpty() ? null : patterns.get(0));
     }
 
     private void initPatternDisplay() {
