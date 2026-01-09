@@ -22,6 +22,7 @@ import org.leodreamer.wildcard_pattern.util.ReflectUtils;
 public class GenericGTTag {
 
     private final TagPrefix itemTag;
+    @Nullable
     private final FluidStorageKey fluidTag;
     private final GenericType type;
 
@@ -37,29 +38,33 @@ public class GenericGTTag {
         }
     }
 
-    public static final TagPrefix NULL_PREFIX = new TagPrefix("null");
+    // I Hate U GTM! Why you do not introduce an empty object until GTM1.6+?
+    public static final TagPrefix ITEM_NULL = new TagPrefix("null");
+    // What is even worse that I cannot create an empty fluid storage key,
+    // as the constructor is private. So use null anyway...
+    public static final GenericGTTag EMPTY = item(ITEM_NULL);
 
-    public static final GenericGTTag EMPTY = item(NULL_PREFIX);
-
-    private GenericGTTag(GenericType type, TagPrefix itemTag, FluidStorageKey fluidTag) {
+    private GenericGTTag(GenericType type, TagPrefix itemTag, @Nullable FluidStorageKey fluidTag) {
         this.type = type;
         this.itemTag = itemTag;
         this.fluidTag = fluidTag;
     }
 
-    public static GenericGTTag item(TagPrefix itemTag) {
+    public static GenericGTTag item(@NotNull TagPrefix itemTag) {
         return new GenericGTTag(GenericType.ITEM, itemTag, null);
     }
 
-    public static GenericGTTag fluid(FluidStorageKey fluidTag) {
+    public static GenericGTTag fluid(@Nullable FluidStorageKey fluidTag) {
         return new GenericGTTag(GenericType.FLUID, null, fluidTag);
     }
 
     public String name() {
         if (type == GenericType.ITEM) {
             return itemTag.name;
-        } else {
+        } else if (fluidTag != null) {
             return fluidTag.getResourceLocation().getPath();
+        } else {
+            return "null";
         }
     }
 
@@ -78,7 +83,7 @@ public class GenericGTTag {
         CompoundTag tag = new CompoundTag();
         if (type == GenericType.ITEM) {
             tag.putString(GenericType.ITEM.key, itemTag.name);
-        } else {
+        } else if (fluidTag != null) {
             tag.putString(GenericType.FLUID.key, fluidTag.getResourceLocation().toString());
         }
         return tag;
@@ -121,7 +126,8 @@ public class GenericGTTag {
             }
             return fluid(FluidStorageKeys.LIQUID);
         }
-        return item(ChemicalHelper.getPrefix(item));
+        var tag = ChemicalHelper.getPrefix(item);
+        return item(tag == null ? ITEM_NULL : tag);
     }
 
     @Nullable

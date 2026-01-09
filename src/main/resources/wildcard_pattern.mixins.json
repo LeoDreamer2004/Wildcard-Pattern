@@ -8,7 +8,6 @@
     "MaterialFlagsMixin",
     "MaterialMixin",
     "MaterialPropertiesMixin",
-    "MEPatternBufferPartMachineMixin",
     "PatternDetailsHelperMixin",
     "PatternProviderLogicMixin"
   ],
