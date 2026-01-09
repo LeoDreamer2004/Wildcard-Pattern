@@ -30,6 +30,7 @@ public class WildcardPattern {
 
     @SubscribeEvent
     public void register(GTCEuAPI.RegisterEvent<ResourceLocation, CoverDefinition> event) {
+        WildcardCreativeTab.init();
         WildcardItems.init();
     }
 }

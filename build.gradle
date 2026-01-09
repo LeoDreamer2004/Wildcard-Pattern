@@ -132,7 +132,7 @@ dependencies {
 
     jarJar(group: 'com.tterrag.registrate', name: 'Registrate', version: "[MC1.20,MC1.21)")
     implementation fg.deobf("com.gregtechceu.gtceu:gtceu-${minecraft_version}:${gtm_version}")
-    implementation fg.deobf("curse.maven:glodium-957920:5226922")
+//    implementation fg.deobf("curse.maven:glodium-957920:5226922")
     implementation fg.deobf("curse.maven:ldlib-626676:7412415")
 //    implementation fg.deobf("org.appliedenergistics:guideme:${guideme_version}")
 //    implementation fg.deobf("appeng:appliedenergistics2-forge:${ae2_version}")
