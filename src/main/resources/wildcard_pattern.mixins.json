@@ -6,6 +6,7 @@
   "refmap": "wildcard_pattern.refmap.json",
   "mixins": [
     "MaterialFlagsMixin",
+    "MaterialMixin",
     "MaterialPropertiesMixin",
     "MEPatternBufferPartMachineMixin",
     "PatternDetailsHelperMixin",

@@ -2,7 +2,6 @@ package org.leodreamer.wildcard_pattern.wildcard.impl;
 
 import appeng.api.stacks.GenericStack;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
-import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
@@ -11,6 +10,7 @@ import com.lowdragmc.lowdraglib.gui.widget.TextFieldWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import net.minecraft.nbt.CompoundTag;
 import org.jetbrains.annotations.NotNull;
+import org.leodreamer.wildcard_pattern.gui.NaiveItemTransfer;
 import org.leodreamer.wildcard_pattern.gui.GenericGTTag;
 import org.leodreamer.wildcard_pattern.gui.PhantomGTTagSlot;
 import org.leodreamer.wildcard_pattern.wildcard.WildcardSerializers;
@@ -49,13 +49,13 @@ public class TagIOComponent implements IWildcardIOComponent {
     @Override
     public void createUILine(WidgetGroup line) {
         line.setBackground(GROUP_BG);
+        tagLabel = new LabelWidget(25, 7, tag.name());
 
-        tagSlot = new PhantomGTTagSlot(new CustomItemStackHandler(), 0, 3, 3, this::updateTag);
+        tagSlot = new PhantomGTTagSlot(new NaiveItemTransfer(), 0, 3, 3, this::updateTag);
 
         if (tag != GenericGTTag.EMPTY) {
             tagSlot.setTag(tag);
         }
-        tagLabel = new LabelWidget(25, 7, tag.name());
 
         amountEdit = new TextFieldWidget(80, 5, 50, 15, this::getAmount, this::setAmount);
         amountEdit.setNumbersOnly(0, Integer.MAX_VALUE);

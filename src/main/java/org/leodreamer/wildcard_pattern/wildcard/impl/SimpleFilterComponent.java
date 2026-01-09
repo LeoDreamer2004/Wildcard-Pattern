@@ -2,7 +2,6 @@ package org.leodreamer.wildcard_pattern.wildcard.impl;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
-import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
@@ -13,6 +12,7 @@ import lombok.Getter;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
+import org.leodreamer.wildcard_pattern.gui.NaiveItemTransfer;
 import org.leodreamer.wildcard_pattern.gui.PhantomGTMaterialSlot;
 import org.leodreamer.wildcard_pattern.lang.DataGenScanned;
 import org.leodreamer.wildcard_pattern.lang.RegisterLanguage;
@@ -60,9 +60,9 @@ public class SimpleFilterComponent implements IWildcardFilterComponent {
     public void createUILine(WidgetGroup line) {
         line.setBackground(whitelist ? GROUP_BG_WHITE : GROUP_BG_BLACK);
         parent = line;
-
-        materialSlot = new PhantomGTMaterialSlot(new CustomItemStackHandler(), 0, 3, 3, this::updateMaterial);
         materialLabel = new LabelWidget(25, 7, getMaterialString(material));
+
+        materialSlot = new PhantomGTMaterialSlot(new NaiveItemTransfer(), 0, 3, 3, this::updateMaterial);
 
         if (material != GTMaterials.NULL) {
             materialSlot.setMaterial(material);

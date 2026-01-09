@@ -4,7 +4,6 @@ import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlag;
 
 import java.util.Set;
 
-public interface IMaterialFlags {
-
+public interface IMaterial {
     Set<MaterialFlag> wildcard$getFlags();
 }

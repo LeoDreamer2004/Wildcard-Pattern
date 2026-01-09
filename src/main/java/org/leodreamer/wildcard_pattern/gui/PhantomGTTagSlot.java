@@ -1,30 +1,42 @@
 package org.leodreamer.wildcard_pattern.gui;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
-import com.gregtechceu.gtceu.api.gui.widget.PhantomSlotWidget;
+import com.lowdragmc.lowdraglib.gui.widget.PhantomSlotWidget;
+import com.lowdragmc.lowdraglib.side.item.IItemTransfer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.IItemHandlerModifiable;
 
 import java.util.function.Predicate;
 
 public class PhantomGTTagSlot extends PhantomSlotWidget {
+    private final Predicate<GenericGTTag> validator;
 
     public PhantomGTTagSlot(
-        IItemHandlerModifiable itemHandler,
+        IItemTransfer itemHandler,
         int slotIndex,
         int xPosition,
         int yPosition,
         Predicate<GenericGTTag> validator
     ) {
-        super(itemHandler, slotIndex, xPosition, yPosition, (stack) -> validator.test(getItemTag(stack)));
+        super(itemHandler, slotIndex, xPosition, yPosition);
+        this.validator = validator;
     }
 
     public void setTag(GenericGTTag tag) {
-        setItem(findExampleForTag(tag));
+        var handler = getHandler();
+        if (handler == null) return;
+        handler.set(findExampleForTag(tag));
     }
 
     public GenericGTTag getTag() {
-        return getItemTag(getItem());
+        var handler = getHandler();
+        if (handler == null) return GenericGTTag.EMPTY;
+        return getItemTag(handler.getItem());
+    }
+
+    @Override
+    public void onSlotChanged() {
+        super.onSlotChanged();
+        validator.test(getTag());
     }
 
     private static ItemStack findExampleForTag(GenericGTTag tag) {

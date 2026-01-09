@@ -7,9 +7,9 @@ import appeng.crafting.pattern.ProcessingPatternItem;
 import com.google.common.collect.BiMap;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEBusPartMachine;
 import com.gregtechceu.gtceu.integration.ae2.machine.MEPatternBufferPartMachine;
+import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 import net.minecraft.server.TickTask;
 import org.leodreamer.wildcard_pattern.WildcardItems;
 import org.leodreamer.wildcard_pattern.wildcard.WildcardPatternLogic;
@@ -30,10 +30,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Mixin(MEPatternBufferPartMachine.class)
 public class MEPatternBufferPartMachineMixin extends MEBusPartMachine {
-
     @Shadow(remap = false)
     @Final
-    private CustomItemStackHandler patternInventory;
+    private ItemStackTransfer patternInventory;
 
     @Shadow(remap = false)
     @Final

@@ -3,21 +3,17 @@ package org.leodreamer.wildcard_pattern.wildcard.impl;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.GenericStack;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
-import com.gregtechceu.gtceu.api.gui.widget.PhantomSlotWidget;
-import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
-import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
-import com.gregtechceu.gtceu.utils.GTMath;
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
 import com.lowdragmc.lowdraglib.gui.texture.ResourceBorderTexture;
-import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.TextFieldWidget;
-import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import com.lowdragmc.lowdraglib.gui.widget.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
+import org.leodreamer.wildcard_pattern.gui.NaiveItemTransfer;
+import org.leodreamer.wildcard_pattern.util.MathUtils;
 import org.leodreamer.wildcard_pattern.wildcard.WildcardSerializers;
 import org.leodreamer.wildcard_pattern.wildcard.feature.IWildcardIOComponent;
 
@@ -41,7 +37,7 @@ public class SimpleIOComponent implements IWildcardIOComponent {
     @Override
     public GenericStack apply(Material material) {
         if (stack.what() instanceof AEItemKey item && item.getItem() instanceof BucketItem bucket) {
-            return GenericStack.fromFluidStack(new FluidStack(bucket.getFluid(), GTMath.saturatedCast(stack.amount())));
+            return GenericStack.fromFluidStack(new FluidStack(bucket.getFluid(), MathUtils.saturatedCast(stack.amount())));
         }
         return stack;
     }
@@ -55,9 +51,12 @@ public class SimpleIOComponent implements IWildcardIOComponent {
     public void createUILine(WidgetGroup line) {
         line.setBackground(GROUP_BG);
 
-        itemSlot = new PhantomSlotWidget(new CustomItemStackHandler(), 0, 3, 3, (s) -> true);
+        itemSlot = new PhantomSlotWidget(new NaiveItemTransfer(), 0, 3, 3);
         if (stack.what() instanceof AEItemKey item) {
-            itemSlot.setItem(item.toStack());
+            var handler = itemSlot.getHandler();
+            if (handler != null) {
+                handler.set(item.toStack());
+            }
         }
         amountEdit = new TextFieldWidget(80, 5, 50, 15, this::getAmount, this::setAmount);
         amountEdit.setNumbersOnly(0, Integer.MAX_VALUE);
@@ -68,7 +67,7 @@ public class SimpleIOComponent implements IWildcardIOComponent {
     }
 
     private String getAmount() {
-        return Integer.toString(GTMath.saturatedCast(stack.amount()));
+        return Integer.toString(MathUtils.saturatedCast(stack.amount()));
     }
 
     private void setAmount(String str) {
@@ -77,7 +76,10 @@ public class SimpleIOComponent implements IWildcardIOComponent {
 
     @Override
     public void onSave() {
-        var itemStack = itemSlot.getItem().copy();
+        var handler = itemSlot.getHandler();
+        if (handler == null) return;
+
+        var itemStack = handler.getItem().copy();
         int count = Integer.parseInt(amountEdit.getCurrentString());
         itemStack.setCount(count);
         var genericStack = GenericStack.fromItemStack(itemStack);

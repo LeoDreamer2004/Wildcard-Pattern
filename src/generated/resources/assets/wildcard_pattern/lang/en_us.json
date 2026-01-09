@@ -1,5 +1,6 @@
 {
   "item.wildcard_pattern.wildcard_pattern": "Wildcard Pattern",
+  "sftcore.creative_tab": "Wildcard Pattern",
   "sftcore.item.wildcard_pattern.config": "Wildcard Pattern Config",
   "sftcore.item.wildcard_pattern.filter.delete.tooltip": "Delete this filter",
   "sftcore.item.wildcard_pattern.filter.flag": "Flag",

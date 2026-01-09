@@ -4,7 +4,6 @@ import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlag;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
-import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
@@ -16,7 +15,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.leodreamer.wildcard_pattern.api.IMaterialFlags;
+import org.leodreamer.wildcard_pattern.api.IMaterial;
+import org.leodreamer.wildcard_pattern.gui.NaiveItemTransfer;
 import org.leodreamer.wildcard_pattern.gui.PhantomGTMaterialSlot;
 import org.leodreamer.wildcard_pattern.lang.DataGenScanned;
 import org.leodreamer.wildcard_pattern.lang.RegisterLanguage;
@@ -72,9 +72,9 @@ public class FlagFilterComponent implements IWildcardFilterComponent {
         line.setBackground(whitelist ? GROUP_BG_WHITE : GROUP_BG_BLACK);
         parent = line;
 
-        exampleSlot = new PhantomGTMaterialSlot(new CustomItemStackHandler(), 0, 3, 3, this::changeExample);
         flagSelector = new MySelectorWidget(25, 5, 80, 15, getMaterialFlagNames(example));
         flagSelector.setOnChanged(this::updateFlag);
+        exampleSlot = new PhantomGTMaterialSlot(new NaiveItemTransfer(), 0, 3, 3, this::changeExample);
 
         if (example != GTMaterials.NULL) {
             exampleSlot.setMaterial(example);
@@ -98,8 +98,8 @@ public class FlagFilterComponent implements IWildcardFilterComponent {
             this.example = material;
             var flags = getMaterialFlagNames(material);
             flagSelector.setCandidates(flags);
-            flagSelector.setValue(flags.getFirst());
-            updateFlag(flags.getFirst());
+            flagSelector.setValue(flags.get(0));
+            updateFlag(flags.get(0));
         }
         return ok;
     }
@@ -122,7 +122,7 @@ public class FlagFilterComponent implements IWildcardFilterComponent {
     private static final String NO_FLAG = "sftcore.item.wildcard_pattern.filter.flag.no_flag";
 
     private static List<String> getMaterialFlagNames(Material material) {
-        var flags = ((IMaterialFlags) material.getFlags()).sftcore$getFlags();
+        var flags = ((IMaterial) material).wildcard$getFlags();
 
         if (flags.isEmpty()) {
             return List.of(Component.translatable(NO_FLAG).getString());

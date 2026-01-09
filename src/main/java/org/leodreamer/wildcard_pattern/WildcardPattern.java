@@ -18,9 +18,9 @@ public class WildcardPattern {
     public static final String MOD_ID = "wildcard_pattern";
     public static final GTRegistrate REGISTRATE = GTRegistrate.create(MOD_ID);
 
-    public WildcardPattern(FMLJavaModLoadingContext context) {
+    public WildcardPattern() {
         REGISTRATE.registerRegistrate();
-        var bus = context.getModEventBus();
+        var bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.addGenericListener(CoverDefinition.class, this::register);
         bus.addListener(EventPriority.LOWEST, (GatherDataEvent event) -> {
             REGISTRATE.addDataGenerator(ProviderType.LANG, WildcardLangHandler::init);
@@ -30,6 +30,7 @@ public class WildcardPattern {
 
     @SubscribeEvent
     public void register(GTCEuAPI.RegisterEvent<ResourceLocation, CoverDefinition> event) {
+        WildcardCreativeTab.init();
         WildcardItems.init();
     }
 }

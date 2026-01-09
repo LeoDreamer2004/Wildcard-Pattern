@@ -37,7 +37,9 @@ public class GenericGTTag {
         }
     }
 
-    public static final GenericGTTag EMPTY = item(TagPrefix.NULL_PREFIX);
+    public static final TagPrefix NULL_PREFIX = new TagPrefix("null");
+
+    public static final GenericGTTag EMPTY = item(NULL_PREFIX);
 
     private GenericGTTag(GenericType type, TagPrefix itemTag, FluidStorageKey fluidTag) {
         this.type = type;
@@ -87,7 +89,7 @@ public class GenericGTTag {
             var item = TagPrefix.get(tag.getString(GenericType.ITEM.key));
             return item(item);
         } else if (tag.contains(GenericType.FLUID.key)) {
-            var rl = ResourceLocation.parse(tag.getString(GenericType.FLUID.key));
+            var rl = new ResourceLocation(tag.getString(GenericType.FLUID.key));
             var fluid = FluidStorageKey.getByName(rl);
             return fluid(fluid);
         }

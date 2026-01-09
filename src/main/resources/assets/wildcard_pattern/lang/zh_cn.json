@@ -1,5 +1,6 @@
 {
   "item.wildcard_pattern.wildcard_pattern": "通配符样板",
+  "sftcore.creative_tab": "通配符样板",
   "sftcore.item.wildcard_pattern.config": "通配符样板配置",
   "sftcore.item.wildcard_pattern.filter.delete.tooltip": "删除此过滤器",
   "sftcore.item.wildcard_pattern.filter.flag": "标志",

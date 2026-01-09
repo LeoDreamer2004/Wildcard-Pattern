@@ -13,7 +13,7 @@ public class PatternDetailsHelperMixin {
 
     @Inject(method = "isEncodedPattern", at = @At("HEAD"), cancellable = true, remap = false)
     private static void allowWildcardPatterns(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
-        if (stack.is(WildcardItems.WILDCARD_PATTERN.asItem())) {
+        if (stack.is(WildcardItems.WILDCARD_PATTERN.get())) {
             cir.setReturnValue(true);
         }
     }

@@ -1,6 +1,7 @@
 package org.leodreamer.wildcard_pattern.wildcard.gui;
 
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
+import lombok.Getter;
 import org.leodreamer.wildcard_pattern.lang.DataGenScanned;
 import org.leodreamer.wildcard_pattern.wildcard.feature.IWildcardComponentUI;
 
@@ -11,6 +12,7 @@ import java.util.function.BiConsumer;
 @DataGenScanned
 public class WildcardComponentListGroup<L extends IWildcardComponentUI> extends WidgetGroup {
 
+    @Getter
     private final ArrayList<L> components;
 
     private static final int LINE_HEIGHT = 25;
@@ -23,10 +25,6 @@ public class WildcardComponentListGroup<L extends IWildcardComponentUI> extends 
         this.components = components.size() < MAX_COMPONENTS ? new ArrayList<>(components) :
             new ArrayList<>(components.subList(0, MAX_COMPONENTS));
         onComponentsChanged();
-    }
-
-    public ArrayList<L> getComponents() {
-        return components;
     }
 
     public void setLineStyle(BiConsumer<Integer, WidgetGroup> lineStyle) {

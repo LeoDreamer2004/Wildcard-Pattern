@@ -55,7 +55,7 @@ public class WildcardPatternBehavior implements IItemUIFactory, IFancyUIProvider
 
     @Override
     public IGuiTexture getTabIcon() {
-        return new ItemStackTexture(WildcardItems.WILDCARD_PATTERN.asItem());
+        return new ItemStackTexture(WildcardItems.WILDCARD_PATTERN.get());
     }
 
     @Override

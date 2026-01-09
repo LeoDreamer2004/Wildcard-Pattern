@@ -16,7 +16,7 @@ public class MaterialPropertiesMixin implements IMaterialProperties {
 
     @Shadow(remap = false)
     @Final
-    private Map<PropertyKey<? extends IMaterialProperty>, IMaterialProperty> propertyMap;
+    private Map<PropertyKey<? extends IMaterialProperty<?>>, IMaterialProperty<?>> propertyMap;
 
     @Override
     public Set<PropertyKey<?>> wildcard$getProperties() {

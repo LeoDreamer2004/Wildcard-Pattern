@@ -5,35 +5,49 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKey;
-import com.gregtechceu.gtceu.api.gui.widget.PhantomSlotWidget;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.lowdragmc.lowdraglib.gui.widget.PhantomSlotWidget;
+import com.lowdragmc.lowdraglib.side.item.IItemTransfer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.items.IItemHandlerModifiable;
 
 import java.util.function.Predicate;
 
 public class PhantomGTMaterialSlot extends PhantomSlotWidget {
 
+    private final Predicate<Material> validator;
+
     public PhantomGTMaterialSlot(
-        IItemHandlerModifiable itemHandler,
+        IItemTransfer itemHandler,
         int slotIndex,
         int xPosition,
         int yPosition,
         Predicate<Material> validator
     ) {
-        super(itemHandler, slotIndex, xPosition, yPosition, (stack) -> validator.test(getItemMaterial(stack)));
+        super(itemHandler, slotIndex, xPosition, yPosition);
+        this.validator = validator;
     }
 
     public void setMaterial(Material material) {
-        setItem(findExampleForMaterial(material));
+        var handler = getHandler();
+        if (handler == null) return;
+        handler.set(findExampleForMaterial(material));
     }
 
     public Material getMaterial() {
-        return getItemMaterial(getItem());
+        var handler = getHandler();
+        if (handler == null) return GTMaterials.NULL;
+        return getItemMaterial(handler.getItem());
     }
 
     private static Material getItemMaterial(ItemStack stack) {
-        return ChemicalHelper.getMaterialEntry(stack.getItem()).material();
+        var entry = ChemicalHelper.getMaterial(stack.getItem());
+        return entry == null ? GTMaterials.NULL : entry.material();
+    }
+
+    @Override
+    public void onSlotChanged() {
+        super.onSlotChanged();
+        validator.test(getMaterial());
     }
 
     private static ItemStack findExampleForMaterial(Material material) {
@@ -46,7 +60,8 @@ public class PhantomGTMaterialSlot extends PhantomSlotWidget {
         try {
             var fluid = material.getFluid();
             return fluid.getBucket().getDefaultInstance();
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
 
         // Maybe some very special materials. Scan it.
         for (var tag : TagPrefix.values()) {
@@ -59,7 +74,8 @@ public class PhantomGTMaterialSlot extends PhantomSlotWidget {
                 var fluid = material.getProperty(PropertyKey.FLUID).getStorage().get(tag);
                 if (fluid == null) continue;
                 return fluid.getBucket().getDefaultInstance();
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
         return ItemStack.EMPTY;
     }
