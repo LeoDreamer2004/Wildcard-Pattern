@@ -5,10 +5,10 @@ import appeng.api.stacks.AEFluidKey;
 import appeng.api.stacks.AEItemKey;
 import appeng.api.stacks.GenericStack;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib.gui.widget.*;
 import com.lowdragmc.lowdraglib.misc.FluidStorage;
 import com.lowdragmc.lowdraglib.side.fluid.FluidStack;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
@@ -37,10 +37,11 @@ public class WildcardIndexPage extends WidgetGroup {
         super(x, y, width, height);
 
         patterns = logic.generateAllPatterns(level).toList();
-
         var component = Component.translatable(PATTERNS_AVAILABLE, patterns.size());
-        int fontWidth = Minecraft.getInstance().font.width(component);
-        addWidget(new LabelWidget((width - fontWidth) / 2, 5, component.getString()));
+        // Use TextTextureWidget here will cause weird bugs on LabelWidget in other pages.
+        // IDK why... LDLib what are u doing???
+        addWidget(new ImageWidget(x + 2, y + 2, width - 4, 15,
+            () -> new TextTexture(component.getString())));
 
         initPatternDisplay();
         displayPattern(patterns.isEmpty() ? null : patterns.get(0));
