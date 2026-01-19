@@ -8,7 +8,6 @@
     "MaterialFlagsMixin",
     "MaterialPropertiesMixin",
     "MEPatternBufferPartMachineMixin",
-    "PatternDetailsHelperMixin",
     "PatternProviderLogicMixin"
   ],
   "client": [

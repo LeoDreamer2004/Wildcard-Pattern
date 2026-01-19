@@ -1,5 +1,6 @@
 package org.leodreamer.wildcard_pattern;
 
+import appeng.api.crafting.PatternDetailsHelper;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.cover.CoverDefinition;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
@@ -11,6 +12,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.leodreamer.wildcard_pattern.lang.WildcardLangHandler;
+import org.leodreamer.wildcard_pattern.wildcard.WildcardPatternDecoder;
 
 @Mod(WildcardPattern.MOD_ID)
 public class WildcardPattern {
@@ -32,5 +34,6 @@ public class WildcardPattern {
     public void register(GTCEuAPI.RegisterEvent<ResourceLocation, CoverDefinition> event) {
         WildcardCreativeTab.init();
         WildcardItems.init();
+        PatternDetailsHelper.registerDecoder(WildcardPatternDecoder.INSTANCE);
     }
 }
